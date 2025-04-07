@@ -4,12 +4,14 @@ import ctypes
 import threading
 import time
 import sys
+import os
 
 
-# Create a simple white icon (16x16)
+# Load the sleeping.ico from the icons folder
 def create_icon():
-    image = Image.new('RGB', (16, 16), color='white')
-    return image
+    # Assuming the script is run from its own directory
+    icon_path = os.path.join(os.path.dirname(__file__), 'icons', 'sleeping.ico')
+    return Image.open(icon_path)
 
 
 # Function to prevent screen lock without input simulation
@@ -25,7 +27,7 @@ def setup_tray():
     icon = pystray.Icon("ScreenStay")
     icon.icon = create_icon()
     icon.menu = pystray.Menu(
-        pystray.MenuItem('Выйти', lambda: (icon.stop(), sys.exit(0)))
+        pystray.MenuItem('Exit', lambda: (icon.stop(), sys.exit(0)))
     )
 
     # Start screen lock prevention in a separate thread
